@@ -1,0 +1,28 @@
+
+#include "application.h"
+
+void setup(void) {
+
+pinMode(A4, INPUT); // 2.048VREF
+pinMode(A3,OUTPUT); //VSET
+pinMode(A2,INPUT); //BSENSE
+pinMode(A1,INPUT); //ISENSE
+pinMode(A0,INPUT); //VSENSE
+pinMode(D6,OUTPUT); //DAC pin? ISET
+pinMode(D7,OUTPUT); //WKP Pin? Buzzer
+//D0 - SDA, D1 - SCL
+
+pinMode(D2,INPUT); //ILIM
+pinMode(D3,OUTPUT); //BOOST
+
+  Serial.begin(9600);
+  Serial.println(WiFi.localIP());
+  Time.zone(-7);
+  Spark.syncTime();
+}
+
+void loop(void)
+{
+
+
+}
