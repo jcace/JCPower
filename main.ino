@@ -1,6 +1,8 @@
 
 #include "application.h"
 
+const int buzzerPin = D7;
+
 void setup(void) {
 
 pinMode(A4, INPUT); // 2.048VREF
@@ -9,7 +11,7 @@ pinMode(A2,INPUT); //BSENSE
 pinMode(A1,INPUT); //ISENSE
 pinMode(A0,INPUT); //VSENSE
 pinMode(D6,OUTPUT); //DAC pin? ISET
-pinMode(D7,OUTPUT); //WKP Pin? Buzzer
+pinMode(buzzerPin,OUTPUT); //WKP Pin? Buzzer
 //D0 - SDA, D1 - SCL
 
 pinMode(D2,INPUT); //ILIM
@@ -19,6 +21,10 @@ pinMode(D3,OUTPUT); //BOOST
   Serial.println(WiFi.localIP());
   Time.zone(-7);
   Spark.syncTime();
+
+  //Play a 100ms tone to indiate powerup
+  tone(buzzerPin,330,100);
+  delay(100);
 }
 
 void loop(void)
