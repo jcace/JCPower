@@ -1,9 +1,6 @@
-
-#include "application.h"
-
-const int buzzerPin = D7;
-
-void setup(void) {
+#define buzzerPin = D7;
+#define refPin = A4;
+void setup() {
 
 pinMode(A4, INPUT); // 2.048VREF
 pinMode(A3,OUTPUT); //VSET
@@ -27,8 +24,7 @@ pinMode(D3,OUTPUT); //BOOST
   delay(100);
 }
 
-void loop(void)
+void loop()
 {
-
 
 }
