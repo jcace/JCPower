@@ -1,9 +1,9 @@
 #include "main.h"
 void setup() {
 
-pinMode(refPin, INPUT); // 2.048VREF
-pinMode(vsetPin, OUTPUT); // VSET
-pinMode(A2,INPUT); // BSENSE
+pinMode(refPin, INPUT);
+pinMode(vsetPin, OUTPUT);
+pinMode(bsensePin,INPUT);
 pinMode(A1,INPUT); // ISENSE
 pinMode(vsensePin, INPUT);
 pinMode(D6,OUTPUT); //DAC pin? ISET

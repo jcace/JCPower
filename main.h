@@ -6,6 +6,6 @@
 #define vsetPin A3
 #define vsensePin A0
 #define boostPin D3
-
+#define bsensePin A2
 
 #endif

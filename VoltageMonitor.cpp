@@ -9,8 +9,9 @@ VoltageMonitor::VoltageMonitor()
 _currentVoltage = 0;
 _desiredVoltage = 0;
 _calibrationOffset = 0;
-_calibrationScale = 1;
+_calibrationScale = 1; //TODO: Change this to double if needed
 _boostEnabled = false;
+ReadBatteryVoltage();
 }
 
 // Take the 2.048vref input and see if the ADC has is slightly off, adjust for it
@@ -22,19 +23,28 @@ _calibrationOffset = 2542 - ref_2048; // 2542 = 2.048/3.3 * 4096
 }
 
 // Read in the voltage from the VSENSE pin. Adjust for calibration value.
-unsigned short int VoltageMonitor::ReadVoltage() {
+unsigned short int VoltageMonitor::ReadSenseVoltage() {
 CalibrateVoltage();
 return _calibrationScale*(analogRead(vsensePin) + _calibrationOffset);
 }
 
+void VoltageMonitor::ReadBatteryVoltage()
+{
+CalibrateVoltage();
+// Map battery voltage based on the resistor devider 0-14.20V max input
+_batteryVoltage = map(_calibrationScale*(analogRead(bsensePin) + _calibrationOffset),0,4096,0,14200);
+}
+
 // INPUT: v in 1mV steps (ie, 19620 for 19.620V)
 // Note that hardware resolution is only ~5mV, so will be rounded accordingly
-void VoltageMonitor::setDesiredVoltage(unsigned int v)
+void VoltageMonitor::SetDesiredVoltage(unsigned int v)
 {
   // Map the voltage request over to a DAC value.
 _desiredVoltage = map(v,0,19620,0,4096);
 
-if (v > BOOST_THRESHOLD) // TODO: Threshold could change depending on VBat, need to calculate this! Vo - Vin > 0.5V
+// Ensure the battery voltage reading is up to date.
+ReadBatteryVoltage();
+if (v > (_batteryVoltage + BOOST_THRESHOLD))
 {
   _boostEnabled = true;
   enableBoost(v);
@@ -48,7 +58,7 @@ else
 analogWrite(vsetPin,v);
 }
 
-void VoltageMonitor::enableBoost(unsigned int v)
+void VoltageMonitor::EnableBoost(unsigned int v)
 {
 
 if( v < 0)
