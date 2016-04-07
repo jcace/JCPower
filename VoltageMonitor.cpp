@@ -34,7 +34,7 @@ void VoltageMonitor::setDesiredVoltage(unsigned int v)
   // Map the voltage request over to a DAC value.
 _desiredVoltage = map(v,0,19620,0,4096);
 
-if (v > BOOST_THRESHOLD)
+if (v > BOOST_THRESHOLD) // TODO: Threshold could change depending on VBat, need to calculate this! Vo - Vin > 0.5V
 {
   _boostEnabled = true;
   enableBoost(v);
@@ -44,12 +44,21 @@ else
   _boostEnabled = false;
   digitalWrite(boostPin,LOW);
 }
+// Write the desired voltage on the DAC output
+analogWrite(vsetPin,v);
 }
 
 void VoltageMonitor::enableBoost(unsigned int v)
 {
+
+if( v < 0)
+
+Wire.beginTransmission(EPOT_ADDRESS)
+Wire.write(byte(0x00)); //Instruction byte?
+
 digitalWrite(boostPin, HIGH);
 return;
+
 // TODO: Talk to the E2POT and set the desired resistance
 // Also enable the BOOST pin.
 }

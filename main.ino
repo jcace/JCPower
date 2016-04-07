@@ -2,12 +2,12 @@
 void setup() {
 
 pinMode(refPin, INPUT); // 2.048VREF
-pinMode(A3,OUTPUT); // VSET
+pinMode(vsetPin, OUTPUT); // VSET
 pinMode(A2,INPUT); // BSENSE
 pinMode(A1,INPUT); // ISENSE
-pinMode(vsensePin,INPUT);
+pinMode(vsensePin, INPUT);
 pinMode(D6,OUTPUT); //DAC pin? ISET
-pinMode(buzzerPin,OUTPUT);
+pinMode(buzzerPin, OUTPUT);
 // D0 - SDA, D1 - SCL
 
 pinMode(D2,INPUT); //ILIM

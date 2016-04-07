@@ -5,6 +5,7 @@
 
 // The threshold (in mV) to enable the boost circuitry
 #define BOOST_THRESHOLD 7200
+#define EPOT_ADDRESS 47 // 0101111 as per MCP4017 datasheet
 class VoltageMonitor
 {
 public:
