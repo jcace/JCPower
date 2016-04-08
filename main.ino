@@ -4,14 +4,14 @@ void setup() {
 pinMode(refPin, INPUT);
 pinMode(vsetPin, OUTPUT);
 pinMode(bsensePin,INPUT);
-pinMode(A1,INPUT); // ISENSE
+pinMode(isensePin, INPUT);
 pinMode(vsensePin, INPUT);
-pinMode(D6,OUTPUT); //DAC pin? ISET
+pinMode(isetPin, OUTPUT);
 pinMode(buzzerPin, OUTPUT);
 // D0 - SDA, D1 - SCL
 
-pinMode(D2,INPUT); //ILIM
-pinMode(boostPin, OUTPUT); //BOOST
+pinMode(ilimPin, INPUT);
+pinMode(boostPin, OUTPUT);
 
   // Initialize Serial communication
   Serial.begin(9600);

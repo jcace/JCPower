@@ -2,6 +2,7 @@
 #define VoltageMonitor_h
 #include "application.h"
 #include "main.h"
+#include "Calibration.h"
 
 // The threshold (in mV) above battery voltage to enable the boost circuitry
 #define BOOST_THRESHOLD 1000
@@ -17,11 +18,9 @@ void SetDesiredVoltage(unsigned int v);
 
 private:
 void setBoost(unsigned int v);
-unsigned short int _currentVoltage;
 unsigned short int _desiredVoltage;
 unsigned short int _batteryVoltage;
-signed short int _calibrationOffset;
-signed short int _calibrationScale;
+signed short int gVoltageCalibrationOffset;
 bool _boostEnabled;
 
 };

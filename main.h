@@ -7,5 +7,8 @@
 #define vsensePin A0
 #define boostPin D3
 #define bsensePin A2
+#define isetPin D6
+#define isensePin A1
+#define ilimPin D2
 
 #endif
