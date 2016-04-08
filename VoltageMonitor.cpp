@@ -28,11 +28,12 @@ CalibrateVoltage();
 return _calibrationScale*(analogRead(vsensePin) + _calibrationOffset);
 }
 
-void VoltageMonitor::ReadBatteryVoltage()
+unsigned short int VoltageMonitor::ReadBatteryVoltage()
 {
 CalibrateVoltage();
 // Map battery voltage based on the resistor devider 0-14.20V max input
 _batteryVoltage = map(_calibrationScale*(analogRead(bsensePin) + _calibrationOffset),0,4096,0,14200);
+return _batteryVoltage;
 }
 
 // INPUT: v in 1mV steps (ie, 19620 for 19.620V)
@@ -44,10 +45,11 @@ _desiredVoltage = map(v,0,19620,0,4096);
 
 // Ensure the battery voltage reading is up to date.
 ReadBatteryVoltage();
-if (v > (_batteryVoltage + BOOST_THRESHOLD))
+if ((v + BOOST_THRESHOLD) > _batteryVoltage)
 {
   _boostEnabled = true;
-  enableBoost(v);
+  setBoost(v);
+  digitalWrite(boostPin, HIGH);
 }
 else
 {
@@ -58,17 +60,16 @@ else
 analogWrite(vsetPin,v);
 }
 
-void VoltageMonitor::EnableBoost(unsigned int v)
+void VoltageMonitor::setBoost(unsigned int v)
 {
+// Calculate required resistance precisely, based on V
+double desiredResistance = (1804000*v - 39684960) / (15128 - 2200*v);
+// Determine the value to write into the epot - round down for worst-case scenario
+uint8_t resistanceBytes = ((int) desiredResistance / 127) - 1);
 
-if( v < 0)
+if (resistanceBytes > 127)
+  resistanceBytes = 127;
 
-Wire.beginTransmission(EPOT_ADDRESS)
-Wire.write(byte(0x00)); //Instruction byte?
-
-digitalWrite(boostPin, HIGH);
-return;
-
-// TODO: Talk to the E2POT and set the desired resistance
-// Also enable the BOOST pin.
+Wire.beginTransmission(EPOT_I2C_ADDRESS)
+Wire.write(resistanceBytes);
 }
