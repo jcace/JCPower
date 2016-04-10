@@ -6,6 +6,7 @@ using namespace std;
 CurrentMonitor::CurrentMonitor()
 {
 _desiredCurrent = 0;
+_usingMicroCurrent = true;
 }
 
 // i: The desired current value in mA.
@@ -21,4 +22,10 @@ unsigned short int currentMonitor::ReadHiSenseCurrent()
 calibrateAdc();
 // Map current from ADC value to mA scale
 return map((analogRead(isensePin) + gVoltageCalibrationOffset),0,4096,0,1000);
+}
+
+unsigned short int currentMonitor_ReadLoSenseCurrent()
+{
+Wire.beginTransmission(INA219_I2C_ADDRESS);
+
 }
