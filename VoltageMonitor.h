@@ -22,7 +22,6 @@ unsigned short int _desiredVoltage;
 unsigned short int _batteryVoltage;
 signed short int gVoltageCalibrationOffset;
 bool _boostEnabled;
-
 };
 
 #endif

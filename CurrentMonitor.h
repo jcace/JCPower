@@ -2,7 +2,7 @@
 #define CurrentMonitor_h
 #include "application.h"
 #include "main.h"
-#include "ina129Spark\ina129Spark.h"
+#include "ina129Spark.h"
 
 
 #define INA219_I2C_ADDRESS 64 // "1000000"
@@ -12,10 +12,12 @@ class CurrentMonitor
 public:
 CurrentMonitor();
 void SetDesiredCurrent(unsigned int i);
+float ReadSenseCurrent();
 
 private:
 uint8_t _desiredCurrent;
 bool _usingMicroCurrent;
 Adafruit_INA219 ina219;
+float ReadHiSenseCurrent();
 };
 #endif
