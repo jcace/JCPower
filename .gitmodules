@@ -1,0 +1,3 @@
+[submodule "ina219Spark"]
+    path = ina129Spark
+    url = https://github.com/pkourany/ina129Spark.git
