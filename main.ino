@@ -28,7 +28,7 @@ pinMode(boostPin, OUTPUT);
   // Initialize I2C Communication
    Wire.begin();
 
-   volt.SetDesiredVoltage(15000);
+   volt.SetDesiredVoltage(2000);
    curr.SetDesiredCurrent(1);
 
    tone(buzzerPin,1000,400);
@@ -42,6 +42,9 @@ void loop()
   delay (500);
   digitalWrite(heartbeatLedPin, LOW);
   delay (500);
+
+  volt.SetDesiredVoltage(2000);
+  curr.SetDesiredCurrent(1000);
 
   Serial.println("voltage:");
   Serial.println(volt.ReadSenseVoltage());
