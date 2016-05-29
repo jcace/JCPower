@@ -15,7 +15,7 @@ void SetDesiredCurrent(unsigned int i);
 float ReadSenseCurrent();
 
 private:
-uint8_t _desiredCurrent;
+uint16_t _desiredCurrent;
 bool _usingMicroCurrent;
 Adafruit_INA219 ina219;
 float ReadHiSenseCurrent();

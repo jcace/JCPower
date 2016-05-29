@@ -29,7 +29,7 @@ pinMode(boostPin, OUTPUT);
    Wire.begin();
 
    volt.SetDesiredVoltage(2000);
-   curr.SetDesiredCurrent(1);
+   curr.SetDesiredCurrent(1000);
 
    tone(buzzerPin,1000,400);
    delay (400);
@@ -43,13 +43,14 @@ void loop()
   digitalWrite(heartbeatLedPin, LOW);
   delay (500);
 
-  volt.SetDesiredVoltage(2000);
-  curr.SetDesiredCurrent(1000);
 
-  Serial.println("voltage:");
-  Serial.println(volt.ReadSenseVoltage());
+  volt.SetDesiredVoltage(15000);
+  curr.SetDesiredCurrent(4000);
+Serial.println("Aa");
+  //Serial.println("voltage:");
+  //Serial.println(volt.ReadSenseVoltage());
   Serial.println("current:");
   Serial.println(curr.ReadSenseCurrent());
-  Serial.println("vbat:");
-  Serial.println(volt.ReadBatteryVoltage());
+  //Serial.println("vbat:");
+  //Serial.println(volt.ReadBatteryVoltage());
 }

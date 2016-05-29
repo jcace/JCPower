@@ -36,7 +36,7 @@ Serial.println("v =");
 Serial.println(_desiredVoltage);
 
 ReadBatteryVoltage();
-if ((_desiredVoltage + BOOST_THRESHOLD) > _batteryVoltage)
+if ((v + BOOST_THRESHOLD) > _batteryVoltage)
 {
   _boostEnabled = true;
   setBoost(_desiredVoltage);

@@ -12,7 +12,10 @@ _desiredCurrent = 0;
 // i: The desired current value in mA, from 0-1000
 void CurrentMonitor::SetDesiredCurrent(unsigned int i)
 {
-_desiredCurrent = map(i,0,1000,0,4096);
+//_desiredCurrent = map(i,0,1000,0,4096);
+_desiredCurrent = 4000;
+Serial.println("desired current:");
+Serial.println(_desiredCurrent);
 analogWrite(isetPin, _desiredCurrent);
 }
 
