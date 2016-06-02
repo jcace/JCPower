@@ -39,7 +39,7 @@ ReadBatteryVoltage();
 if ((v + BOOST_THRESHOLD) > _batteryVoltage)
 {
   _boostEnabled = true;
-  setBoost(_desiredVoltage);
+  setBoost(v);
   digitalWrite(boostPin, HIGH);
 }
 else
@@ -54,7 +54,9 @@ analogWrite(vsetPin,v);
 void VoltageMonitor::setBoost(unsigned int v)
 {
 // Calculate required resistance precisely, based on V
-double desiredResistance = (1804000*v - 39684960) / (15128 - 2200*v);
+int voltz = v/1000;
+
+double desiredResistance = (1804000*voltz - 39684960) / (15128 - 2200*voltz);
 // Determine the value to write into the epot - round down for worst-case scenario
 uint8_t resistanceBytes = (uint8_t) (((int) desiredResistance / 127) - 1);
 
