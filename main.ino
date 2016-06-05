@@ -44,9 +44,9 @@ void loop()
   delay (500);
 
 
-  volt.SetDesiredVoltage(15000);
-  curr.SetDesiredCurrent(4000);
-Serial.println("Aa");
+  volt.SetDesiredVoltage(19800);
+  curr.SetDesiredCurrent(200);
+  Serial.println("Aa");
   //Serial.println("voltage:");
   //Serial.println(volt.ReadSenseVoltage());
   Serial.println("current:");

@@ -12,15 +12,15 @@ class VoltageMonitor
 public:
 VoltageMonitor();
 void CalibrateVoltage();
-unsigned short int ReadSenseVoltage();
-unsigned short int ReadBatteryVoltage();
+unsigned int ReadSenseVoltage();
+unsigned int ReadBatteryVoltage();
 void SetDesiredVoltage(unsigned int v);
 
 private:
 void setBoost(unsigned int v);
-unsigned short int _desiredVoltage;
-unsigned short int _batteryVoltage;
-signed short int gVoltageCalibrationOffset;
+unsigned int _desiredVoltage;
+unsigned int _batteryVoltage;
+signed int gVoltageCalibrationOffset;
 bool _boostEnabled;
 };
 
