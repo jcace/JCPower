@@ -11,12 +11,12 @@ ReadBatteryVoltage();
 }
 
 // Read in the voltage from the VSENSE pin. Adjust for calibration value.
-unsigned short int VoltageMonitor::ReadSenseVoltage() {
+unsigned int VoltageMonitor::ReadSenseVoltage() {
 calibrateAdc();
 return analogRead(vsensePin) + gVoltageCalibrationOffset;
 }
 
-unsigned short int VoltageMonitor::ReadBatteryVoltage()
+unsigned int VoltageMonitor::ReadBatteryVoltage()
 {
 calibrateAdc();
 // Map battery voltage based on the resistor devider 0-14.20V max input
@@ -29,7 +29,7 @@ return _batteryVoltage;
 void VoltageMonitor::SetDesiredVoltage(unsigned int v)
 {
   // Map the voltage request over to a DAC value.
-_desiredVoltage = map(v,0,19620,0,4096);
+_desiredVoltage = map(v,0,19800,0,4095);
 
 // Ensure the battery voltage reading is up to date.
 Serial.println("v =");
@@ -48,7 +48,8 @@ else
   digitalWrite(boostPin,LOW);
 }
 // Write the desired voltage on the DAC output
-analogWrite(vsetPin,v);
+analogWrite(vsetPin, _desiredVoltage);
+
 }
 
 void VoltageMonitor::setBoost(unsigned int v)
