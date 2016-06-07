@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+  <table border="2" id="dataTable" width="500px">
+    <tr>
+      <td>Core ID</td>
+
+      <td>Voltage</td>
+  
+	  <td>Current</td>
+
+  <td>Timestamp</td>
+</tr>
+  </table>
+  <br>
+  <br>
+  
+    <span id="uptime"></span><br>
+
+    <br><br>
+    <button onclick="start()">Connect</button>
+
+    <script type="text/javascript">
+    function start() {
+
+        document.getElementById("uptime").innerHTML = "Waiting for data...";
+        var deviceID = "26003f000847343337373738";
+        var accessToken = "0688ae3c5c0a0177ce3b44b89647ad7a2c677035";
+        var eventSource = new EventSource("https://api.spark.io/v1/devices/" + deviceID + "/events/?access_token=" + accessToken);
+
+		var dt = document.getElementById("dataTable");
+		var rows = dt.rows.length;
+		
+        eventSource.addEventListener('open', function(e) {
+            console.log("Opened!"); },false);
+
+        eventSource.addEventListener('error', function(e) {
+            console.log("Errored!"); },false);
+
+        eventSource.addEventListener('Stats', function(e) {
+			var parsedData = JSON.parse(e.data);
+			var jsonData = JSON.parse(parsedData.data);
+			
+			var newRow = dt.insertRow(rows);
+			var cell1 = newRow.insertCell(0);
+			var cell2 = newRow.insertCell(1);
+			var cell3 = newRow.insertCell(2); 
+			var cell4 = newRow.insertCell(3);
+			
+			cell1.innerHTML = parsedData.coreid;
+			// the letters below should match the ones from your JSON
+			cell2.innerHTML = jsonData.v; // <- change this
+			cell3.innerHTML = jsonData.c; // <- change this too
+			cell4.innerHTML = parsedData.published_at;	
+        }, false);
+    }
+    </script>
+</body>
+</html>
