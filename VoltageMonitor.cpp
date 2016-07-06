@@ -32,8 +32,8 @@ void VoltageMonitor::SetDesiredVoltage(unsigned int v)
 _desiredVoltage = map(v,0,19800,0,4095);
 
 // Ensure the battery voltage reading is up to date.
-Serial.println("v =");
-Serial.println(_desiredVoltage);
+//Serial.println("v =");
+//Serial.println(_desiredVoltage);
 
 ReadBatteryVoltage();
 if ((v + BOOST_THRESHOLD) > _batteryVoltage)

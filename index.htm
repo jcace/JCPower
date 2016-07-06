@@ -1,6 +1,15 @@
 <!DOCTYPE HTML>
 <html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <body>
+<P>Set PSU Parameters:</br><br>
+<form action="JavaScript:webset()">
+  Voltage: <input type="text" name="volt" id=txtVolt><br>
+  Current: <input type="text" name="curr" id=txtCurr><br>
+  <input type="checkbox" name="enable" value="en" id=enable>Enable Output<br>
+  <input type="submit" value="Submit">
+</form>
+
   <table border="2" id="dataTable" width="500px">
     <tr>
       <td>Core ID</td>
@@ -21,11 +30,14 @@
     <button onclick="start()">Connect</button>
 
     <script type="text/javascript">
+	var setFunc = "webset";
+	var deviceID = "26003f000847343337373738";
+    var accessToken = "0688ae3c5c0a0177ce3b44b89647ad7a2c677035";
+		
     function start() {
 
         document.getElementById("uptime").innerHTML = "Waiting for data...";
-        var deviceID = "26003f000847343337373738";
-        var accessToken = "0688ae3c5c0a0177ce3b44b89647ad7a2c677035";
+
         var eventSource = new EventSource("https://api.spark.io/v1/devices/" + deviceID + "/events/?access_token=" + accessToken);
 
 		var dt = document.getElementById("dataTable");
@@ -54,6 +66,14 @@
 			cell4.innerHTML = parsedData.published_at;	
         }, false);
     }
+      function webset() {
+	var requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + setFunc + "/";
+	var newValue = (document.getElementById('txtVolt').value +";" + document.getElementById('txtCurr').value +";" +document.getElementById('enable').checked);
+	alert(newValue);
+        $.post( requestURL, { params: newValue, access_token: accessToken });
+      }
+      
+	
     </script>
 </body>
 </html>
