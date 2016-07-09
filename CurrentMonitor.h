@@ -12,12 +12,12 @@ class CurrentMonitor
 public:
 CurrentMonitor();
 void SetDesiredCurrent(unsigned int i);
-float ReadSenseCurrent();
+int ReadSenseCurrent();
 
 private:
 uint16_t _desiredCurrent;
 bool _usingMicroCurrent;
 Adafruit_INA219 ina219;
-float ReadHiSenseCurrent();
+int ReadHiSenseCurrent();
 };
 #endif

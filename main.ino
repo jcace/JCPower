@@ -30,8 +30,8 @@ pinMode(boostPin, OUTPUT);
   // Initialize I2C Communication
    Wire.begin();
 
-   volt.SetDesiredVoltage(2000);
-   curr.SetDesiredCurrent(1000);
+   volt.SetDesiredVoltage(0);
+   curr.SetDesiredCurrent(0);
 
    //tone(buzzerPin,1000,400);
    //delay (400);
@@ -39,66 +39,67 @@ pinMode(boostPin, OUTPUT);
 
    // Declare the Spark function for cloud connectivity.
    Spark.function("webset",WebSet);
-   _isEnabled = true;
+   _isEnabled = false;
 
  }
 
 void loop()
 {
   unsigned long now = millis();
-    if (now-lastTime/500UL > 1UL)
-    {
-  digitalWrite(heartbeatLedPin, !digitalRead(heartbeatLedPin));
-  volt.SetDesiredVoltage(19800);
-  curr.SetDesiredCurrent(200);
-//  Serial.println("current:");
-//  Serial.println(curr.ReadSenseCurrent());
-    }
   //Serial.println("voltage:");
   //Serial.println(volt.ReadSenseVoltage());
   //Serial.println("vbat:");
   //Serial.println(volt.ReadBatteryVoltage());
   if (now-lastTime>5000UL) {
-          //lastTime = now;
+      digitalWrite(heartbeatLedPin, !digitalRead(heartbeatLedPin));
+          lastTime = now;
           // now is in milliseconds
-          //char publishString[100];
-          //sprintf(publishString,"{\"v\":%d,\"c\":%d}", volt.ReadSenseVoltage(), curr.ReadSenseCurrent());
-          //Spark.publish("Stats",publishString);
+          char publishString[100];
+          sprintf(publishString,"{\"v\":%d,\"c\":%d}", volt.ReadSenseVoltage(), curr.ReadSenseCurrent());
+          Spark.publish("Stats",publishString);
       }
 }
 
 int WebSet(String command) {
   int c, v = 0;
-  bool enable = false;
+    bool enable = false;
     // Copy the command string to an array of chars, split based on "-" characters
     char * params = new char[command.length() + 1];
     strcpy(params, command.c_str());
-    char * p = strtok(params, ";");
+    char * p = strtok(params, "-");
 
 // Step through each of the command settings.
 int commandStep = 0;
 while (p != NULL)
 {
-  if (commandStep = 0)
-  {
-    if (strcmp(p,"true") == 0)
-      enable = true;
-    else
-      enable = false;
-  }
-  if (commandStep = 1)
+  Serial.println(p);
+  if (commandStep == 0)
   {
     v = atoi(p); // Voltage setting in mV
   }
-  if (commandStep = 2)
+  if (commandStep == 1)
   {
     c = atoi(p); // Current setting in mA
   }
+  if (commandStep == 2)
+  {
+    Serial.println("The p is: ");
+    Serial.println(p);
+    if (strcmp(p,"true") == 0)
+    {
+      Serial.println("dope");
+      enable = true;
+    }
+    else
+      enable = false;
+  }
+  p = strtok(NULL, "-");
+  commandStep++;
 }
 //Serial.println("Enable = " + enable);
 //Serial.println("Voltage = " + v);
 //Serial.println("Current = " + c);
-if (enable != 1)
+if (!enable)
   {
   _isEnabled = false;
   curr.SetDesiredCurrent(0);

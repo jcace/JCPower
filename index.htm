@@ -68,7 +68,7 @@
     }
       function webset() {
 	var requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + setFunc + "/";
-	var newValue = (document.getElementById('txtVolt').value +";" + document.getElementById('txtCurr').value +";" +document.getElementById('enable').checked);
+	var newValue = (document.getElementById('txtVolt').value +"-" + document.getElementById('txtCurr').value +"-" +document.getElementById('enable').checked);
 	alert(newValue);
         $.post( requestURL, { params: newValue, access_token: accessToken });
       }
