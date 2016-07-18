@@ -50,7 +50,7 @@ void loop()
   //Serial.println(volt.ReadSenseVoltage());
   //Serial.println("vbat:");
   //Serial.println(volt.ReadBatteryVoltage());
-  if (now-lastTime>5000UL) {
+  if (now-lastTime>200UL) {
       digitalWrite(heartbeatLedPin, !digitalRead(heartbeatLedPin));
           lastTime = now;
           // now is in milliseconds

@@ -8,15 +8,16 @@
   Current: <input type="text" name="curr" id=txtCurr><br>
   <input type="checkbox" name="enable" value="en" id=enable>Enable Output<br>
   <input type="submit" value="Submit">
+  </br>
+  </br>
 </form>
 
   <table border="2" id="dataTable" width="500px">
     <tr>
-      <td>Core ID</td>
 
-      <td>Voltage</td>
+      <td>Voltage (mV)</td>
   
-	  <td>Current</td>
+	  <td>Current (mA)</td>
 
   <td>Timestamp</td>
 </tr>
@@ -53,13 +54,19 @@
 			var parsedData = JSON.parse(e.data);
 			var jsonData = JSON.parse(parsedData.data);
 			
+			if (dt.rows.length < 2)
+			{
 			var newRow = dt.insertRow(rows);
-			var cell1 = newRow.insertCell(0);
-			var cell2 = newRow.insertCell(1);
-			var cell3 = newRow.insertCell(2); 
-			var cell4 = newRow.insertCell(3);
-			
-			cell1.innerHTML = parsedData.coreid;
+			var cell2 = newRow.insertCell(0);
+			var cell3 = newRow.insertCell(1); 
+			var cell4 = newRow.insertCell(2);
+			}
+			else
+			{
+			cell2 = dt.rows[1].cells[0];
+			cell3 = dt.rows[1].cells[1];
+			cell4 = dt.rows[1].cells[2];
+			}
 			// the letters below should match the ones from your JSON
 			cell2.innerHTML = jsonData.v; // <- change this
 			cell3.innerHTML = jsonData.c; // <- change this too
@@ -69,7 +76,7 @@
       function webset() {
 	var requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + setFunc + "/";
 	var newValue = (document.getElementById('txtVolt').value +"-" + document.getElementById('txtCurr').value +"-" +document.getElementById('enable').checked);
-	alert(newValue);
+	console.log(newValue);
         $.post( requestURL, { params: newValue, access_token: accessToken });
       }
       
