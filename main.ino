@@ -50,7 +50,7 @@ void loop()
   //Serial.println(volt.ReadSenseVoltage());
   //Serial.println("vbat:");
   //Serial.println(volt.ReadBatteryVoltage());
-  if (now-lastTime>200UL) {
+  if (now-lastTime>1000UL) {
       digitalWrite(heartbeatLedPin, !digitalRead(heartbeatLedPin));
           lastTime = now;
           // now is in milliseconds
@@ -87,7 +87,6 @@ while (p != NULL)
     Serial.println(p);
     if (strcmp(p,"true") == 0)
     {
-      Serial.println("dope");
       enable = true;
     }
     else

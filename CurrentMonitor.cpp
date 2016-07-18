@@ -29,12 +29,9 @@ return map(analogRead(isensePin) + gVoltageCalibrationOffset,0,4095,0,1000);
 int CurrentMonitor::ReadSenseCurrent()
 {
   float current_mA = ina219.getCurrent_mA();
-  Serial.println("Current_MA from INA219 is: ");
-  Serial.println(current_mA);
 
   if (current_mA >= 320.00)
   {
-    Serial.println(":(");
   return ReadHiSenseCurrent();
   }
   else
