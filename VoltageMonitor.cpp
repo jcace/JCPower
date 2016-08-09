@@ -12,9 +12,8 @@ ReadBatteryVoltage();
 
 // Read in the voltage from the VSENSE pin. Adjust for calibration value.
 unsigned int VoltageMonitor::ReadSenseVoltage() {
-//calibrateAdc();
-int v = analogRead(vsensePin);//+ gVoltageCalibrationOffset;
-Serial.println(v);
+calibrateAdc();
+int v = map(analogRead(vsensePin),0,4095,0,19800); //+ gVoltageCalibrationOffset;
 return v;
 }
 
