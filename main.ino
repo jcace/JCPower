@@ -55,7 +55,7 @@ void loop()
           lastTime = now;
           // now is in milliseconds
           char publishString[100];
-          sprintf(publishString,"{\"v\":%d,\"c\":%d}", volt.ReadSenseVoltage(), curr.ReadSenseCurrent());
+          sprintf(publishString,"{\"v\":%d,\"c\":%d, \"b\":%d}", volt.ReadSenseVoltage(), curr.ReadSenseCurrent(), volt.ReadBatteryPercentage());
           Spark.publish("Stats",publishString);
       }
 }
@@ -109,8 +109,8 @@ if (!enable)
   {
     _isEnabled = true;
     curr.SetDesiredCurrent(c);
-    volt.SetDesiredVoltage(v); // TODO: Handle the type conversions here
+    volt.SetDesiredVoltage(v);
     return 1;
   }
-  return 1; // TODO: return 0, return -1 for errors?
+  return 1;
 }

@@ -17,11 +17,26 @@ int v = map(analogRead(vsensePin),0,4095,0,19800); //+ gVoltageCalibrationOffset
 return v;
 }
 
+unsigned int VoltageMonitor::ReadBatteryPercentage()
+{
+  float perc =  (float)(ReadBatteryVoltage() - 5600) / 2800;
+  // Ensure battery percentage is capped at 0 and 100%
+  if (perc < 0)
+    perc = 0;
+  else if (perc > 1.00)
+    perc = 1.00;
+
+    // TODO: Seems to return 100% when perc is less than zero (ie, below minimum threshold)
+  return (unsigned int) (perc * 100);
+}
 unsigned int VoltageMonitor::ReadBatteryVoltage()
 {
 calibrateAdc();
 // Map battery voltage based on the resistor devider 0-14.20V max input
-_batteryVoltage = map((analogRead(bsensePin) + gVoltageCalibrationOffset),0,4095,0,14200);
+float battVoltage = (float)map((analogRead(bsensePin) + gVoltageCalibrationOffset),0,4095,0,14200);
+battVoltage *= 1.031;
+battVoltage -= 138.5;
+_batteryVoltage = (unsigned int) battVoltage;
 return _batteryVoltage;
 }
 
@@ -29,20 +44,19 @@ return _batteryVoltage;
 // Note that hardware resolution is only ~5mV, so will be rounded accordingly
 void VoltageMonitor::SetDesiredVoltage(unsigned int v)
 {
+  // Add hand-calibration values to make the voltage output more accurate
+  float vCalc = ((float)v * DAC_CALIB_SLOPE) + DAC_CALIB_INTERCEPT;
+
   // Map the voltage request over to a DAC value.
-_desiredVoltage = map(v,0,19800,0,4095);
+_desiredVoltage = map((unsigned int)vCalc,0,19800,0,4095);
 
 // Ensure the battery voltage reading is up to date.
-Serial.println("v (0-4095) =");
-Serial.println(_desiredVoltage);
-
 ReadBatteryVoltage();
 if ((v + BOOST_THRESHOLD) > _batteryVoltage)
 {
   _boostEnabled = true;
   setBoost(v);
   digitalWrite(boostPin, HIGH);
-  Serial.println("BOOST ENGAGED");
 }
 else
 {

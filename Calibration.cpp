@@ -9,6 +9,5 @@ signed short int gVoltageCalibrationOffset = 0;
 signed short int calibrateAdc()
 {
   unsigned short int ref_2048 = analogRead(refPin);
-  gVoltageCalibrationOffset = 2542 - ref_2048; // 2542 = 2.048/3.3 * 4096
-  Serial.println(gVoltageCalibrationOffset);
+  gVoltageCalibrationOffset = 2544 - ref_2048; // 2542 = 2.050/3.3 * 4096
 }
