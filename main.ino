@@ -6,7 +6,6 @@ VoltageMonitor volt;
 CurrentMonitor curr;
 bool _isEnabled;
 unsigned long lastTime = 0UL;
-
 void setup() {
 
 pinMode(refPin, INPUT);
@@ -33,9 +32,9 @@ pinMode(boostPin, OUTPUT);
    volt.SetDesiredVoltage(0);
    curr.SetDesiredCurrent(0);
 
-   //tone(buzzerPin,1000,400);
-   //delay (400);
-   //tone(buzzerPin, 1200, 400);
+   tone(buzzerPin,1000,400);
+   delay (400);
+   tone(buzzerPin, 1200, 400);
 
    // Declare the Spark function for cloud connectivity.
    Spark.function("webset",WebSet);
@@ -46,17 +45,23 @@ pinMode(boostPin, OUTPUT);
 void loop()
 {
   unsigned long now = millis();
-  //Serial.println("voltage:");
-  //Serial.println(volt.ReadSenseVoltage());
-  //Serial.println("vbat:");
-  //Serial.println(volt.ReadBatteryVoltage());
   if (now-lastTime>1000UL) {
       digitalWrite(heartbeatLedPin, !digitalRead(heartbeatLedPin));
           lastTime = now;
+          float currentCurrent = curr.ReadSenseCurrent();
+          int currentVoltage = volt.ReadSenseVoltage();
           // now is in milliseconds
           char publishString[100];
-          sprintf(publishString,"{\"v\":%d,\"c\":%d, \"b\":%d}", volt.ReadSenseVoltage(), curr.ReadSenseCurrent(), volt.ReadBatteryPercentage());
+          sprintf(publishString,"{\"v\":%d,\"c\":%f, \"b\":%d}", currentVoltage, currentCurrent, volt.ReadBatteryPercentage());
           Spark.publish("Stats",publishString);
+
+          #if DEBUG_SERIAL
+            Serial.print("Current: ");
+            Serial.print(currentCurrent);
+            Serial.print(" Voltage: ");
+            Serial.print(currentVoltage);
+            Serial.println("");
+          #endif
       }
 }
 
@@ -83,8 +88,6 @@ while (p != NULL)
   }
   if (commandStep == 2)
   {
-    Serial.println("The p is: ");
-    Serial.println(p);
     if (strcmp(p,"true") == 0)
     {
       enable = true;
@@ -95,9 +98,7 @@ while (p != NULL)
   p = strtok(NULL, "-");
   commandStep++;
 }
-//Serial.println("Enable = " + enable);
-//Serial.println("Voltage = " + v);
-//Serial.println("Current = " + c);
+
 if (!enable)
   {
   _isEnabled = false;

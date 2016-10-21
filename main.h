@@ -12,4 +12,5 @@
 #define isensePin A1
 #define ilimPin D2
 
+#define DEBUG_SERIAL true
 #endif

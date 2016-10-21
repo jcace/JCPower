@@ -13,8 +13,7 @@ _desiredCurrent = 0;
 void CurrentMonitor::SetDesiredCurrent(unsigned int i)
 {
 _desiredCurrent = map(i,0,1000,0,4095);
-//Serial.println("desired current:");
-//Serial.println(_desiredCurrent);
+
 analogWrite(isetPin, _desiredCurrent);
 }
 
@@ -26,16 +25,16 @@ calibrateAdc();
 return map(analogRead(isensePin) + gVoltageCalibrationOffset,0,4095,0,1000);
 }
 // TODO: Change the current gain register to provide mode accurate measurements
-int CurrentMonitor::ReadSenseCurrent()
+float CurrentMonitor::ReadSenseCurrent()
 {
   float current_mA = ina219.getCurrent_mA();
 
   if (current_mA >= 320.00)
   {
-  return ReadHiSenseCurrent();
+  return (float)ReadHiSenseCurrent();
   }
   else
   {
-  return int(current_mA+0.5);
+  return current_mA;
   }
 }

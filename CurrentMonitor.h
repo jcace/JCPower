@@ -12,7 +12,7 @@ class CurrentMonitor
 public:
 CurrentMonitor();
 void SetDesiredCurrent(unsigned int i);
-int ReadSenseCurrent();
+float ReadSenseCurrent();
 
 private:
 uint16_t _desiredCurrent;
