@@ -2,9 +2,10 @@
 JCPower is a wifi-connected, battery-powered power supply that supports variable voltage (1-20V), and current limiting (0-1A). This repository contains all source code, including tuning values - one JCPower was fully assembled and calibrated, so that the DAC/ADC values were accurate.
 
 ## Hardware
-Circuit schematic, board, and component list is available on the (CircuitMaker page)[https://workspace.circuitmaker.com/Projects/Details/Jason-Cihelka-2/JCPOWER]
+Circuit schematic, board, and component list is available on the [CircuitMaker page](https://workspace.circuitmaker.com/Projects/Details/Jason-Cihelka-2/JCPOWER)
 
-![JCPOWER Board](https://jcace.com/images/portfolio/board_view.jpg)
+*Assembled Board*
+![JCPOWER Board](jcpower-web.JPG)
 
 The [Particle Photon](https://www.particle.io/wifi/) board was chosen as the control board due to its builtin ADC/DACs, processing power, and ease of connection/sharing of data over Wifi.
 
